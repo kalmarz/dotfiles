@@ -1,8 +1,5 @@
 #!/bin/bash
 
-sudo add-apt-repository ppa:kubuntu-ppa/backports
-sudo apt update && sudo apt full-upgrade -y
-
 function install {
   which $1 &> /dev/null
 
@@ -14,28 +11,31 @@ function install {
   fi
 }
 
-# Basics
+## basics
 install awscli
-install chromium-browser
-install curl
-install dialog
-install exfat-utils
-install file
-install git
-install htop
+install gopass
 install jq
+install mosh
+install net-tools
 install nmap
 install openvpn
-install tmux
-install tree
-install vim
-install xclip
 
-# Image processing
-install gimp
-install jpegoptim
-install optipng
+## docker 
+install docker
+install docker-compose
 
-# Fun stuff
+## torrent
+install deluged
+install deluge-console
+
+## fun stuff
 install figlet
 install lolcat
+
+## kernel building shit
+install git
+install bc
+install bison
+install flex
+install libssl-dev
+install make

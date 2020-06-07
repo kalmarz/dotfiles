@@ -6,73 +6,15 @@ HISTFILESIZE=2000
 # append to the history file instead of overwrite
 shopt -s histappend
 
-ssh-add ~/.ssh/id_rsa
+#ssh-add ~/.ssh/id_rsa
 
-# Aliases
-alias cp='cp -Rv'
-alias ls='ls --color=auto -ACF'
-alias ll='ls --color=auto -alF'
-alias grep='grep --color=auto'
-alias mkdir='mkdir -pv'
-alias mv='mv -v'
-alias wget='wget -c'
-
-alias gadd='git add'
-alias gcom='git commit'
-alias gsup='git status'
-alias goto='git checkout'
-
-alias pip='pip3'
-alias pym='python3 manage.py'
-alias mkenv='python3 -m venv env'
-alias startenv='source env/bin/activate && which python3'
-alias stopenv='deactivate'
-
-# Use programs without a root-equivalent group
-alias docker='sudo docker'
-alias prtn='sudo protonvpn'
+# GnuPG
+export GPG_TTY=$(tty)
 
 # Show contents of dir after action
 function cd () {
     builtin cd "$1"
     ls -ACF
-}
-
-# Golang install or upgrade
-function getgolang () {
-    sudo rm -rf /usr/local/go
-    wget -q -P tmp/ https://dl.google.com/go/go"$@".linux-amd64.tar.gz
-    sudo tar -C /usr/local -xzf tmp/go"$@".linux-amd64.tar.gz
-    rm -rf tmp/
-    go version
-}
-
-# GHCLI install or upgrade
-function getghcli () {
-    wget -q -P tmp/ https://github.com/cli/cli/releases/download/v"$@"/gh_"$@"_linux_amd64.deb
-    cd tmp/ && sudo dpkg -i gh_"$@"_linux_amd64.deb
-    cd .. && rm -rf tmp/
-    gh --version
-}
-
-# Hugo install or upgrade
-function gethugo () {
-    wget -q -P tmp/ https://github.com/gohugoio/hugo/releases/download/v"$@"/hugo_extended_"$@"_Linux-64bit.tar.gz
-    tar xf tmp/hugo_extended_"$@"_Linux-64bit.tar.gz -C tmp/
-    sudo mv -f tmp/hugo /usr/local/bin/
-    rm -rf tmp/
-    hugo version
-}
-
-# Hugo site from exampleSite in themes/
-function hugotheme () {
-    HUGO_THEME="$1" hugo "${@:2}" --themesDir ../.. -v
-}
-
-# Add GitLab remote to cwd git
-function glab () {
-    git remote set-url origin --add git@gitlab.com:victoriadrake/"${PWD##*/}".git
-    git remote -v
 }
 
 # Markdown link check in a folder, recursive
@@ -81,8 +23,14 @@ function mlc () {
 }
 
 # Go
-export PATH=$PATH:/usr/local/bin:/usr/local/go/bin:~/.local/bin:$GOPATH/bin
-export GOPATH=~/go
+#export GOPATH=~/go
+PATH=/home/pi/go/bin:$PATH
+
+# get whichever version of go you want
+getgolang() {
+	go get golang.org/dl/go"$@"
+	go"$@" download
+}
 
 # Vim for life
 export EDITOR=/usr/bin/vim
@@ -142,21 +90,45 @@ if [ "${UID}" -eq "0" ]; then
     pointerC="${txtred}"
 fi
 
+# Get the name of our branch and put () around it
 gitBranch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-export PS1="${pathC}\w ${gitC}\$(gitBranch) ${pointerC}\$${normalC} "
+# Get the name of our Terraform workspace and put () around it
+tfWorkspace() {
+	if [[ -f .terraform/environment ]]; then
+		cat .terraform/environment | sed -e 's/\(.*\)/(\1)/'
+	fi
+}
+
+# Build the prompt
+PS1="${pathC}\w ${gitC}\$(gitBranch) ${tfC}\$(tfWorkspace) ${pointerC}\$${normalC} "
 
 # Use powerline-shell prompt
-function _update_ps1() {
-    PS1=$(powerline-shell $?)
+#function _update_ps1() {
+#    PS1=$(powerline-shell $?)
+#}
+
+#if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
+#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+#fi
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# set AWS env variables
+saws() {
+	export AWS_ACCESS_KEY_ID=$(gopass pi-aws_access_key_id)
+	export AWS_SECRET_ACCESS_KEY=$(gopass pi-aws_secret_access_key)
+	export AWS_DEFAULT_REGION=eu-west-1
 }
 
-if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+if [ -f ~/.bash_aliases ]; then
+  . ~/.bash_aliases
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
