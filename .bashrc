@@ -12,10 +12,10 @@ shopt -s histappend
 export GPG_TTY=$(tty)
 
 # Show contents of dir after action
-function cd () {
-    builtin cd "$1"
-    ls -ACF
-}
+#function cd () {
+#    builtin cd "$1"
+#    ls -ACF
+#}
 
 # Markdown link check in a folder, recursive
 function mlc () {
@@ -33,7 +33,7 @@ getgolang() {
 }
 
 # Vim for life
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/local/bin/vim
 
 # Bash completion
 source ~/.git-completion.bash
@@ -82,6 +82,7 @@ nameC="${txtblu}"
 hostC="${txtpur}"
 pathC="${txtcyn}"
 gitC="${txtpur}"
+tfC="${txtylw}"
 pointerC="${txtwht}"
 normalC="${txtrst}"
 

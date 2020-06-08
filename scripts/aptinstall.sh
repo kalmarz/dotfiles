@@ -19,6 +19,10 @@ install mosh
 install net-tools
 install nmap
 install openvpn
+install tmux
+install lsof
+install ecryptfs-utils
+install cryptsetup
 
 ## docker 
 install docker
@@ -28,14 +32,15 @@ install docker-compose
 install deluged
 install deluge-console
 
-## fun stuff
-install figlet
-install lolcat
-
-## kernel building shit
+## building shit
 install git
 install bc
 install bison
 install flex
 install libssl-dev
+install libncurses-dev
 install make
+
+## fun stuff
+install figlet
+install lolcat
