@@ -11,16 +11,8 @@ shopt -s histappend
 # GnuPG
 export GPG_TTY=$(tty)
 
-# Show contents of dir after action
-#function cd () {
-#    builtin cd "$1"
-#    ls -ACF
-#}
-
-# Markdown link check in a folder, recursive
-function mlc () {
-    find $1 -name \*.md -exec markdown-link-check -p {} \;
-}
+# mosh wants this
+export LC_ALL='en_US.UTF-8'
 
 # Go
 #export GOPATH=~/go
@@ -133,3 +125,4 @@ fi
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
+

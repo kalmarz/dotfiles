@@ -13,6 +13,7 @@ function install {
 
 ## basics
 install awscli
+install git
 install gopass
 install jq
 install mosh
@@ -33,7 +34,6 @@ install deluged
 install deluge-console
 
 ## building shit
-install git
 install bc
 install bison
 install flex

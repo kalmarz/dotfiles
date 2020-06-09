@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Update Kubuntu and get standard repository programs
+# get standard repository programs
 ./aptinstall.sh
 
 # Run all programs/ install scripts
