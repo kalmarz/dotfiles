@@ -30,7 +30,7 @@ iface usb0 inet static
 EOL
 
 echo creating /root/usb.sh
-cat > /root/usb.sh <<EOL
+cat > /root/usb.sh <<'EOL'
 #!/bin/bash
 cd /sys/kernel/config/usb_gadget/
 mkdir -p pi4
