@@ -1,5 +1,5 @@
 alias tf="terraform"
-alias shu="sudo shutdown -now"
+alias shu="sudo shutdown now"
 alias reboot="sudo reboot now"
 alias docker="sudo docker"
 alias dcup="sudo docker-compose up"

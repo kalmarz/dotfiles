@@ -13,9 +13,11 @@ function install {
 
 ## basics
 install awscli
+install dnsmasq
 install git
 install gopass
 install jq
+install locate
 install mosh
 install net-tools
 install nmap
