@@ -1,9 +1,17 @@
 alias tf="terraform"
 alias shu="sudo shutdown now"
 alias reboot="sudo reboot now"
+
 alias docker="sudo docker"
-alias dcup="sudo docker-compose up"
-alias dcdn="sudo docker-compose down"
+alias doi="sudo docker image"
+alias doc="sudo docker container"
+alias don="sudo docker network"
+alias dov="sudo docker volume"
+
+alias dcp="sudo docker-compose"
+alias dcpu="sudo docker-compose up"
+alias dcpd="sudo docker-compose down"
+
 alias pvpn="sudo protonvpn"
 alias py3="python3"
 #alias pym='py3 manage.py'
