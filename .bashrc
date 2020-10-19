@@ -15,14 +15,16 @@ export GPG_TTY=$(tty)
 export LC_ALL='en_US.UTF-8'
 
 # Go
-#export GOPATH=~/go
-PATH=/home/pi/go/bin:$PATH
+export GOROOT=~/go
+export GOPATH=~/go-libraries
 
 # get whichever version of go you want
 getgolang() {
 	go get golang.org/dl/go"$@"
 	go"$@" download
 }
+
+PATH=/home/pi/.local/bin:/home/pi/go/bin:/home/pi/.yarn/bin:$PATH
 
 # Vim for life
 export EDITOR=/usr/local/bin/vim
@@ -83,6 +85,20 @@ if [ "${UID}" -eq "0" ]; then
     pointerC="${txtred}"
 fi
 
+get_kubernetes_context()
+{
+  CONTEXT=$(kubectl config current-context 2>/dev/null)
+  KUBE_SYMBOL=$'\xE2\x8E\x88 '
+  if [ -n "$CONTEXT" ]; then
+    NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+    if [ -n "$NAMESPACE" ]; then
+      echo "(${KUBE_SYMBOL} ${CONTEXT} :: ${NAMESPACE})"
+    else
+      echo "(${KUBE_SYMBOL} ${CONTEXT}:None)"
+    fi
+ fi
+}
+
 # Get the name of our branch and put () around it
 gitBranch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -96,7 +112,7 @@ tfWorkspace() {
 }
 
 # Build the prompt
-PS1="${pathC}\w ${gitC}\$(gitBranch) ${tfC}\$(tfWorkspace) ${pointerC}\$${normalC} "
+PS1="${pathC}\w ${gitC}\$(gitBranch) ${tfC}\$(tfWorkspace) ${nameC}\$(get_kubernetes_context) ${pointerC}\$${normalC} "
 
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

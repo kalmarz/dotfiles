@@ -1,4 +1,5 @@
 #!/bin/bash
+exit 0
 
 echo "🐋 Installing Docker"
 sudo apt update
@@ -15,5 +16,6 @@ sudo add-apt-repository \
    stable"
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose
+sudo apt -y install gnupg2 pass
 sudo docker run hello-world
 
