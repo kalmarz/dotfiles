@@ -1,7 +1,12 @@
-alias tf="terraform"
 
 alias shu="sudo shutdown now"
 alias reboot="sudo reboot now"
+
+alias gl="git log --all --graph --oneline"
+alias gs="git status"
+alias gc="git commit"
+
+alias tf="terraform"
 
 alias docker="sudo docker"
 alias doi="sudo docker image"
