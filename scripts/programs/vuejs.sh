@@ -2,9 +2,9 @@
 
 echo "📦 Installing node.js & npm & yarn"
 
-curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 sudo apt-get install -y nodejs
-npm install -g yarn
+sudo npm install -g yarn
 
 echo "Install yarn 2 per project:"
 echo "cd /path/to/project"

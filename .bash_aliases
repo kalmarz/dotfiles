@@ -8,15 +8,14 @@ alias gc="git commit"
 
 alias tf="terraform"
 
-alias docker="sudo docker"
-alias doi="sudo docker image"
-alias doc="sudo docker container"
-alias don="sudo docker network"
-alias dov="sudo docker volume"
+alias doi="docker image"
+alias doc="docker container"
+alias don="docker network"
+alias dov="docker volume"
 
-alias dcp="sudo docker-compose"
-alias dcpu="sudo docker-compose up"
-alias dcpd="sudo docker-compose down"
+alias dcp="docker-compose"
+alias dcpu="docker-compose up"
+alias dcpd="docker-compose down"
 
 alias k=kubectl
 alias ka='kubectl apply -f'

@@ -13,18 +13,20 @@ export GPG_TTY=$(tty)
 
 # mosh wants this
 export LC_ALL='en_US.UTF-8'
+export LANG='en_US.UTF-8'
 
 # Go
-export GOROOT=~/go
-export GOPATH=~/go-libraries
+export GOPATH=~/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
-# get whichever version of go you want
-getgolang() {
-	go get golang.org/dl/go"$@"
-	go"$@" download
+# Golang install or upgrade
+function getgolang () {
+    sudo rm -rf /usr/local/go
+    wget -q -P tmp/ https://dl.google.com/go/go"$@".linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf tmp/go"$@".linux-amd64.tar.gz
+    rm -rf tmp/
+    go version
 }
-
-PATH=/home/pi/.local/bin:/home/pi/go/bin:/home/pi/.yarn/bin:$PATH
 
 # Vim for life
 export EDITOR=/usr/local/bin/vim
@@ -72,7 +74,7 @@ txtrst='\[\e[0m\]'    # Text Reset
 
 # Prompt colours
 atC="${txtpur}"
-nameC="${txtblu}"
+nameC="${bldgrn}"
 hostC="${txtpur}"
 pathC="${txtcyn}"
 gitC="${txtpur}"
@@ -89,12 +91,14 @@ get_kubernetes_context()
 {
   CONTEXT=$(kubectl config current-context 2>/dev/null)
   KUBE_SYMBOL=$'\xE2\x8E\x88 '
+  KUBE_SYMBOL="k8s"
   if [ -n "$CONTEXT" ]; then
-    NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+    #NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+    NAMESPACE=$(kubens -c)
     if [ -n "$NAMESPACE" ]; then
       echo "(${KUBE_SYMBOL} ${CONTEXT} :: ${NAMESPACE})"
     else
-      echo "(${KUBE_SYMBOL} ${CONTEXT}:None)"
+      echo "(${KUBE_SYMBOL} ${CONTEXT} :: none)"
     fi
  fi
 }
@@ -120,8 +124,8 @@ PS1="${pathC}\w ${gitC}\$(gitBranch) ${tfC}\$(tfWorkspace) ${nameC}\$(get_kubern
 
 # set AWS env variables
 saws() {
-	export AWS_ACCESS_KEY_ID=$(gopass pi-aws_access_key_id)
-	export AWS_SECRET_ACCESS_KEY=$(gopass pi-aws_secret_access_key)
+	export AWS_ACCESS_KEY_ID=$(gopass ubuntu-aws_access_key_id)
+	export AWS_SECRET_ACCESS_KEY=$(gopass ubuntu-aws_secret_access_key)
 	export AWS_DEFAULT_REGION=eu-west-1
 }
 
@@ -132,3 +136,5 @@ fi
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
+
+complete -C /usr/local/bin/mc mc
